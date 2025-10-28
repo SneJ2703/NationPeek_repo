@@ -1,0 +1,30 @@
+name: Deploy NationPeek - Root Fix
+
+on:
+  push:
+    branches:
+      - master 
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # 1. Inject the API Key into the ROOT index.html
+      - name: Inject API Key
+        run: |
+          sed "s|$$WEATHER_API_KEY$$|${{ secrets.WEATHER_API_KEY }}|g" index.html > index.html.temp
+          mv index.html.temp index.html
+
+      # 2. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
