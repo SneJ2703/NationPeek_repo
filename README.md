@@ -21,7 +21,7 @@ A beautiful web application that allows users to discover countries and their ca
 ### Country Information
 - Country name and flag
 - Capital city
-- Population (formatted)
+- Population 
 - Region and subregion
 - Total area
 - Local time with timezone
