@@ -19,11 +19,10 @@ jobs:
         
       # 1. Inject the API Key
       - name: Inject API Key and Prepare Deployment
-        # The working directory is now set to the nationpeek folder
-        working-directory: web dev/nationpeek
+        # FIX: Added quotes around the path "web dev/nationpeek"
+        working-directory: "web dev/nationpeek" 
         run: |
           # Use 'sed' to find the placeholder and replace it with the secret value
-          # The resulting file is named index.html.temp in the current folder (nationpeek)
           sed "s|$$WEATHER_API_KEY$$|${{ secrets.WEATHER_API_KEY }}|g" index.html > index.html.temp
           
           # Overwrite the original index.html with the key-injected version
@@ -34,5 +33,5 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Publish from the *subdirectory* where the files are located
-          publish_dir: web dev/nationpeek
+          # FIX: Added quotes around the path "web dev/nationpeek"
+          publish_dir: "web dev/nationpeek"
