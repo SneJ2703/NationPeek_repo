@@ -20,7 +20,7 @@ jobs:
       # 1. Inject the API Key
       - name: Inject API Key and Prepare Deployment
         # FIX: Added quotes around the path "web dev/nationpeek"
-        working-directory: "web dev/nationpeek" 
+        working-directory: "sneha/VS CODE/web dev/nationpeek" 
         run: |
           # Use 'sed' to find the placeholder and replace it with the secret value
           sed "s|$$WEATHER_API_KEY$$|${{ secrets.WEATHER_API_KEY }}|g" index.html > index.html.temp
