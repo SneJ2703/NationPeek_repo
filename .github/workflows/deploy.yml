@@ -1,38 +1,38 @@
 name: Deploy NationPeek
 
 on:
-push:
-branches:
-- master # Triggers the workflow on push events to the master branch
+  push:
+    branches:
+      - master # Triggers the workflow on push events to the master branch
 
 jobs:
-build-and-deploy:
-runs-on: ubuntu-latest
-
-# Permissions are required for the deployment token
-permissions:
-  contents: write 
-
-steps:
-  - name: Checkout Repository
-    uses: actions/checkout@v4
+  build-and-deploy:
+    runs-on: ubuntu-latest
     
-  # 1. Substitute the API Key
-  - name: Inject API Key and Prepare Deployment
-    run: |
-      # Navigate to the correct subdirectory
-      cd "web dev/nationpeek"
-      
-      # Use 'sed' to find the placeholder and replace it with the secret value
-      # The resulting file is named index_live.html
-      sed "s|$$WEATHER_API_KEY$$|${{ secrets.WEATHER_API_KEY }}|g" index.html > index_live.html
-      
-      # Move the processed file back to the root of the repo for gh-pages deployment
-      cp index_live.html ../../index.html
-      
-  # 2. Deploy to GitHub Pages
-  - name: Deploy to GitHub Pages
-    uses: peaceiris/actions-gh-pages@v3
-    with:
-      github_token: ${{ secrets.GITHUB_TOKEN }}
-      publish_dir: ./ # Deploy from the root of the repository
+    # Permissions are required for the deployment token
+    permissions:
+      contents: write 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      # 1. Inject the API Key
+      - name: Inject API Key and Prepare Deployment
+        # The working directory is now set to the nationpeek folder
+        working-directory: web dev/nationpeek
+        run: |
+          # Use 'sed' to find the placeholder and replace it with the secret value
+          # The resulting file is named index.html.temp in the current folder (nationpeek)
+          sed "s|$$WEATHER_API_KEY$$|${{ secrets.WEATHER_API_KEY }}|g" index.html > index.html.temp
+          
+          # Overwrite the original index.html with the key-injected version
+          mv index.html.temp index.html
+          
+      # 2. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Publish from the *subdirectory* where the files are located
+          publish_dir: web dev/nationpeek
