@@ -4,300 +4,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NationPeek</title>
-    
-    <!-- Bootstrap CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        :root {
-            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            --bg-light: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 50%, #90caf9 100%);
-            --bg-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --backdrop-blur: blur(20px);
-            --font-color-light: #333333 !important;
-            --font-color-dark: #e0e0e0 !important;
-        }
-
-        [data-bs-theme="dark"] {
-            --bs-body-bg: #121212;
-            --bs-body-color: #ffffff;
-            --bs-card-bg: rgba(45, 45, 45, 0.9);
-            --glass-bg: rgba(0, 0, 0, 0.2);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --font-color-light: #e0e0e0;
-            --font-color-dark: #333333;
-        }
-
-        body {
-            background: var(--bg-light);
-            background-attachment: fixed;
-            min-height: 100vh;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: all 0.3s ease;
-            color: var(--font-color-light);
-            color: #333333;
+        /* Custom Tailwind Configuration (for better aesthetics) */
+        @layer base {
+            :root {
+                --color-primary: 66, 125, 234; /* #667eea */
+                --color-secondary: 118, 75, 162; /* #764ba2 */
+                --color-success: 79, 172, 254; /* #4facfe */
+                --bg-light-start: 227, 242, 253; /* #e3f2fd */
+                --bg-light-end: 144, 202, 249; /* #90caf9 */
+                --bg-dark-start: 26, 26, 46; /* #1a1a2e */
+                --bg-dark-end: 15, 52, 96; /* #0f3460 */
+            }
         }
         
-        h6{
-            font-size: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-           
-        }
-
-        [data-bs-theme="dark"] body {
-            background: var(--bg-dark);
-             color: var(--font-color-dark);
-        }
-
         .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border-radius: 20px;
+        }
+        [data-theme="dark"] .glass-card {
+            background-color: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .gradient-btn {
-            background: var(--primary-gradient);
-            border: none;
-            color: white;
+        .gradient-bg {
+            background-image: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 100%);
+        }
+        
+        .hero-title-gradient {
+            background-image: linear-gradient(135deg, rgb(var(--color-primary)) 0%, rgb(var(--color-secondary)) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .temp-gradient {
+            background-image: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Responsive Body Background */
+        body {
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
-            border-radius: 50px;
-            padding: 12px 30px;
-            font-weight: 600;
-            position: relative;
-            overflow: hidden;
+            background-attachment: fixed;
+            min-height: 100vh;
+            background-image: linear-gradient(135deg, rgb(var(--bg-light-start)) 0%, rgb(var(--bg-light-end)) 100%);
         }
 
-        .gradient-btn:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.949), transparent);
-            transition: left 0.5s;
-        }
-
-        .gradient-btn:hover:before {
-            left: 100%;
-        }
-
-        .gradient-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-        }
-
-        .gradient-btn-secondary {
-            background: var(--secondary-gradient);
-        }
-
-        .weather-icon {
-            width: 60px;
-            height: 60px;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
-        }
-
-        .country-flag {
-            font-size: 4rem;
-            text-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            line-height: 1;
-        }
-
-        .temperature {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--success-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1050;
-            border-radius: 50px;
-            padding: 10px 20px;
-            background: rgb(233 233 233 / 76%);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
-            color: var(--bs-body-color);
-        }
-
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            backdrop-filter: blur(5px);
-        }
-
-        .loading-content {
-            background: var(--glass-bg);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 30px;
-            text-align: center;
-            color: white;
-        }
-
-        .pulse-animation {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .fade-in {
-            animation: fadeIn 0.5s ease-in;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stat-card {
-            background: var(--glass-bg);
-            backdrop-filter: var(--backdrop-blur);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-            height: 100%;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .stat-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero-section {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .hero-title {
-            font-size: 3.5rem;
-            font-weight: 700;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 15px;
-        }
-
-        .search-container {
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
-            }
-            
-            .country-flag {
-                font-size: 3rem;
-            }
-            
-            .temperature {
-                font-size: 2rem;
-            }
-        }
-
-        .time-display {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--bs-primary);
-        }
-
-        .timezone-info {
-            font-size: 0.9rem;
-            opacity: 0.8;
+        [data-theme="dark"] body {
+            background-image: linear-gradient(135deg, rgb(var(--bg-dark-start)) 0%, rgb(var(--bg-dark-end)) 100%);
         }
     </style>
 </head>
-<body data-bs-theme="light">
+
+<body data-theme="light" class="text-gray-900 antialiased">
     <!-- Theme Toggle -->
-    <button class="btn theme-toggle" onclick="toggleTheme()">
-        <i class="fas fa-moon"></i> Dark Mode
+    <button class="fixed top-5 right-5 z-50 rounded-full bg-white/70 backdrop-blur-md shadow-lg p-3 text-gray-700 transition duration-300 hover:bg-white focus:outline-none" onclick="toggleTheme()">
+        <i id="themeIcon" class="fas fa-moon"></i>
     </button>
 
     <!-- Loading Overlay -->
-    <div id="loadingOverlay" class="loading-overlay d-none">
-        <div class="loading-content">
-            <div class="spinner-border text-light mb-3" role="status"></div>
-            <h5 id="loadingText" class="text-light">Loading...</h5>
+    <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="bg-gray-800/80 glass-card p-8 rounded-xl shadow-2xl text-white text-center">
+            <div class="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full mb-4 mx-auto"></div>
+            <h5 id="loadingText" class="text-lg font-semibold">Loading...</h5>
         </div>
     </div>
 
-    <div class="container py-5">
+    <div class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
         <!-- Hero Section -->
-        <div class="hero-section">
-            <h1 class="hero-title">
+        <div class="text-center mb-8">
+            <h1 class="text-5xl font-extrabold hero-title-gradient mb-3 tracking-tight md:text-6xl">
                 <i class="fas fa-globe-americas"></i> NationPeek
             </h1>
-            <p class="lead">Discover countries and their capital city weather</p>
+            <p class="text-xl text-gray-700 dark:text-gray-300">Discover countries and their capital city weather</p>
         </div>
 
         <!-- Search Section -->
-        <div class="search-container mb-5">
-            <div class="glass-card p-4">
+        <div class="max-w-xl mx-auto mb-10">
+            <div class="glass-card p-6 rounded-2xl">
                 <form id="searchForm" onsubmit="searchCountry(event)">
-                    <div class="row g-3">
-                        <div class="col-md-8">
-                            <div class="input-group">
-                                <span class="input-group-text border-end-0">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-grow">
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                                     <i class="fas fa-search"></i>
                                 </span>
                                 <input 
                                     type="text" 
-                                    class="form-control border-start-0" 
+                                    class="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-full focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150 dark:bg-gray-700 dark:text-gray-100" 
                                     id="countryInput" 
                                     placeholder="Enter country name..."
                                     required
                                 >
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <button type="submit" class="btn gradient-btn w-100" id="searchBtn">
-                                <i class="fas fa-search"></i> Search
-                            </button>
-                        </div>
+                        <button type="submit" class="gradient-bg text-white font-semibold py-3 px-6 rounded-full shadow-lg hover:shadow-xl transition duration-300 hover:scale-[1.02] active:scale-[0.98]" id="searchBtn">
+                            <i class="fas fa-search"></i> Search
+                        </button>
                     </div>
                 </form>
                 
-                <div class="text-center mt-3">
-                    <button type="button" class="btn gradient-btn gradient-btn-secondary" onclick="getCurrentLocation()">
+                <div class="text-center mt-4">
+                    <button type="button" class="bg-purple-500 hover:bg-purple-600 text-white font-semibold py-2 px-6 rounded-full shadow-md transition duration-300" onclick="getCurrentLocation()">
                         <i class="fas fa-map-marker-alt"></i> Use My Location
                     </button>
                 </div>
@@ -305,97 +126,84 @@
         </div>
 
         <!-- Alert Messages -->
-        <div id="alertContainer"></div>
+        <div id="alertContainer" class="mb-4"></div>
 
         <!-- Results Section -->
-        <div id="resultSection" class="d-none fade-in">
+        <div id="resultSection" class="hidden">
             <!-- Country Header -->
-            <div class="glass-card p-4 mb-4">
-                <div class="row align-items-center">
-                    <div class="col-auto">
-                        <div id="countryFlag" class="country-flag"></div>
-                    </div>
-                    <div class="col">
-                        <h2 id="countryName" class="mb-1 fw-bold"></h2>
-                        <p id="countryCapital" class="mb-0 fs-5">
-                            <i class="fas fa-map-pin"></i> Capital: <span></span>
+            <div class="glass-card p-6 md:p-8 mb-6 rounded-2xl shadow-xl">
+                <div class="flex items-center space-x-4">
+                    <div id="countryFlag" class="text-6xl md:text-8xl leading-none"></div>
+                    <div>
+                        <h2 id="countryName" class="text-3xl md:text-4xl font-bold mb-1 dark:text-white"></h2>
+                        <p id="countryCapital" class="text-lg md:text-xl text-gray-600 dark:text-gray-400">
+                            <i class="fas fa-map-pin mr-2"></i> Capital: <span class="font-semibold"></span>
                         </p>
                     </div>
                 </div>
             </div>
 
             <!-- Stats Grid -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h5>Population</h5>
-                        <p id="countryPopulation" class="h4 fw-bold text-primary mb-0"></p>
-                    </div>
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- Population -->
+                <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
+                    <div class="text-3xl mb-2 text-indigo-500"><i class="fas fa-users"></i></div>
+                    <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Population</h5>
+                    <p id="countryPopulation" class="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">--</p>
                 </div>
                 
-                <div class="col-md-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <h5>Region</h5>
-                        <p id="countryRegion" class="h5 fw-bold text-success mb-0"></p>
-                    </div>
+                <!-- Region -->
+                <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
+                    <div class="text-3xl mb-2 text-green-500"><i class="fas fa-globe"></i></div>
+                    <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Region</h5>
+                    <p id="countryRegion" class="text-lg font-bold text-green-600 dark:text-green-400 mt-1">--</p>
                 </div>
                 
-                <div class="col-md-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-expand-arrows-alt"></i>
-                        </div>
-                        <h5>Area</h5>
-                        <p id="countryArea" class="h5 fw-bold text-info mb-0"></p>
-                    </div>
+                <!-- Area -->
+                <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
+                    <div class="text-3xl mb-2 text-yellow-500"><i class="fas fa-expand-arrows-alt"></i></div>
+                    <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Area</h5>
+                    <p id="countryArea" class="text-lg font-bold text-yellow-600 dark:text-yellow-400 mt-1">--</p>
                 </div>
                 
-                <div class="col-md-6 col-lg-3">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-clock"></i>
-                        </div>
-                        <h5>Local Time</h5>
-                        <div id="localTime" class="time-display">--:--</div>
-                        <div id="timezone" class="timezone-info"></div>
-                    </div>
+                <!-- Local Time -->
+                <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
+                    <div class="text-3xl mb-2 text-red-500"><i class="fas fa-clock"></i></div>
+                    <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Local Time</h5>
+                    <div id="localTime" class="text-2xl font-bold text-red-600 dark:text-red-400">--:--</div>
+                    <div id="timezone" class="text-xs opacity-75 mt-1"></div>
                 </div>
             </div>
 
             <!-- Weather Section -->
-            <div class="glass-card p-4">
-                <h3 class="mb-3">
-                    <i class="fas fa-cloud-sun text-primary"></i> 
-                    Current Weather in <span id="weatherCity"></span>
+            <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl">
+                <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
+                    <i class="fas fa-cloud-sun text-blue-500 mr-2"></i> 
+                    Current Weather in <span id="weatherCity" class="font-bold"></span>
                 </h3>
-                <div id="weatherContent" class="row align-items-center">
-                    <div class="col-auto">
-                        <img id="weatherIcon" class="weather-icon" src="" alt="Weather icon">
+                <div id="weatherContent" class="flex flex-wrap items-center gap-6">
+                    <!-- Main Weather -->
+                    <div class="flex items-center">
+                        <img id="weatherIcon" class="w-20 h-20" src="" alt="Weather icon" onerror="this.onerror=null; this.src='https://placehold.co/80x80/cccccc/333333?text=N/A'">
+                        <div>
+                            <div id="temperature" class="text-5xl font-extrabold temp-gradient">--°C</div>
+                            <div id="weatherDescription" class="text-xl capitalize text-gray-700 dark:text-gray-300"></div>
+                        </div>
                     </div>
-                    <div class="col-auto">
-                        <div id="temperature" class="temperature">--°C</div>
-                        <div id="weatherDescription" class="h5 text-capitalize"></div>
-                    </div>
-                    <div class="col">
-                        <div class="row text-center">
-                            <div class="col">
-                                <div class="h6 ">Feels Like</div>
-                                <div id="feelsLike" class="h5 fw-bold">--°C</div>
-                            </div>
-                            <div class="col">
-                                <div class="h6">Humidity</div>
-                                <div id="humidity" class="h5 fw-bold">--%</div>
-                            </div>
-                            <div class="col">
-                                <div class="h6">Wind Speed</div>
-                                <div id="windSpeed" class="h5 fw-bold">-- m/s</div>
-                            </div>
+
+                    <!-- Details Grid -->
+                    <div class="flex-grow grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Feels Like</div>
+                            <div id="feelsLike" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--°C</div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Humidity</div>
+                            <div id="humidity" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--%</div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Wind Speed</div>
+                            <div id="windSpeed" class="text-lg font-bold text-gray-800 dark:text-white mt-1">-- m/s</div>
                         </div>
                     </div>
                 </div>
@@ -403,96 +211,123 @@
         </div>
     </div>
 
-    <!-- External Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Configuration - Load before main script -->
-    <script src="config.js"></script>
-    
     <script>
-        // Configuration is now loaded from config.js
+        // --- FIX: Moved CONFIG object to the start of the script for global availability ---
+        const CONFIG = {
+            // NOTE: For security, never expose real API keys in client-side code in a production application.
+            WEATHER_API_KEY: '$$WEATHER_API_KEY$$', 
+            
+            DEFAULT_UNITS: 'metric',
+            REQUEST_TIMEOUT: 10000,
+            
+            ENDPOINTS: {
+                WEATHER: 'https://api.openweathermap.org/data/2.5/weather',
+                COUNTRIES: 'https://restcountries.com/v3.1',
+                GEOCODING: 'https://api.bigdatacloud.net/data/reverse-geocode-client'
+            }
+        };
+
+        // --- Global State and Utility Functions ---
         let timeInterval = null;
 
         // Theme management
         function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
-            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             
-            const toggle = document.querySelector('.theme-toggle');
-            toggle.innerHTML = newTheme === 'dark' 
-                ? '<i class="fas fa-sun"></i> Light Mode' 
-                : '<i class="fas fa-moon"></i> Dark Mode';
+            const icon = document.getElementById('themeIcon');
+            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            
+            // Toggle text/background colors for dark mode based on Tailwind
+            document.body.classList.toggle('text-gray-900', newTheme === 'light');
+            document.body.classList.toggle('dark:text-white', newTheme === 'dark');
         }
 
-        // Initialize theme
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
-            document.documentElement.setAttribute('data-bs-theme', savedTheme);
+            document.documentElement.setAttribute('data-theme', savedTheme);
             
-            const toggle = document.querySelector('.theme-toggle');
-            toggle.innerHTML = savedTheme === 'dark' 
-                ? '<i class="fas fa-sun"></i> Light Mode' 
-                : '<i class="fas fa-moon"></i> Dark Mode';
+            const icon = document.getElementById('themeIcon');
+            if (icon) {
+                 icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+            
+            // Initial body text color setup
+            if (savedTheme === 'dark') {
+                document.body.classList.remove('text-gray-900');
+                document.body.classList.add('dark:text-white');
+            }
         }
 
        // Show/hide loading
-        function showLoading(text = 'Loading...') {
+       function showLoading(text = 'Loading...') {
             document.getElementById('loadingText').textContent = text;
-            document.getElementById('loadingOverlay').classList.remove('d-none');
+            document.getElementById('loadingOverlay').classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling
         }
 
         function hideLoading() {
-            document.getElementById('loadingOverlay').classList.add('d-none');
+            document.getElementById('loadingOverlay').classList.add('hidden');
+            document.body.style.overflow = '';
         } 
 
-        // Show alerts
+        // Show alerts (uses simple in-place alert, no external bootstrap needed)
         function showAlert(message, type = 'danger') {
             const alertContainer = document.getElementById('alertContainer');
-            const alertId = 'alert-' + Date.now();
+            const color = type === 'danger' ? 'red' : (type === 'warning' ? 'yellow' : 'blue');
+            const icon = type === 'danger' ? 'fa-exclamation-triangle' : (type === 'warning' ? 'fa-exclamation-circle' : 'fa-info-circle');
             
             const alertHTML = `
-                <div id="${alertId}" class="alert alert-${type} alert-dismissible fade show" role="alert">
-                    <i class="fas fa-${type === 'danger' ? 'exclamation-triangle' : 'info-circle'}"></i>
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <div class="p-4 mb-4 text-sm text-${color}-800 rounded-lg bg-${color}-100 dark:bg-${color}-200 dark:text-${color}-800 flex items-center shadow fade-in" role="alert">
+                    <i class="fas ${icon} mr-3"></i>
+                    <div>${message}</div>
+                    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-transparent text-${color}-500 rounded-lg p-1.5 hover:bg-${color}-200 inline-flex items-center justify-center h-8 w-8" onclick="this.closest('div').remove()">
+                        <span class="sr-only">Close alert</span>
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
             `;
             
+            // Use innerHTML to replace previous alert
             alertContainer.innerHTML = alertHTML;
             
             // Auto dismiss after 5 seconds
             setTimeout(() => {
-                const alertElement = document.getElementById(alertId);
+                const alertElement = alertContainer.querySelector('div');
                 if (alertElement) {
-                    const bsAlert = new bootstrap.Alert(alertElement);
-                    bsAlert.close();
+                    alertElement.remove();
                 }
             }, 5000);
         }
 
-        // Format population
+        // Format numbers
+        function formatNumber(number) {
+            return number.toLocaleString('en-US');
+        }
+
         function formatPopulation(population) {
             if (population >= 1000000) {
                 return (population / 1000000).toFixed(1) + 'M';
             } else if (population >= 1000) {
                 return (population / 1000).toFixed(1) + 'K';
             }
-            return population.toLocaleString();
+            return formatNumber(population);
         }
 
-        // Format area
         function formatArea(area) {
-            return area.toLocaleString() + ' km²';
+            return formatNumber(area) + ' km²';
         }
+
+        // --- API Fetching Functions ---
 
         // Fetch country data
         async function fetchCountryData(countryName) {
             try {
                 const response = await fetch(
-                    `${CONFIG.ENDPOINTS.COUNTRIES}/name/${encodeURIComponent(countryName)}?fullText=false`
+                    `${CONFIG.ENDPOINTS.COUNTRIES}/name/${encodeURIComponent(countryName)}?fullText=true` // Using fullText=true for more accurate single result
                 );
                 
                 if (!response.ok) {
@@ -515,14 +350,19 @@
                     capitalInfo: country.capitalInfo
                 };
             } catch (error) {
+                // Check for 404 specifically
+                if (error.message.includes('404')) {
+                    throw new Error('Country not found. Please check the spelling.');
+                }
                 throw new Error('Failed to fetch country data. Please check the country name and try again.');
             }
         }
 
         // Fetch weather data
         async function fetchWeatherData(cityName) {
-            if (!CONFIG.WEATHER_API_KEY || CONFIG.WEATHER_API_KEY === 'YOUR_OPENWEATHERMAP_API_KEY_HERE') {
-                throw new Error('Weather API key not configured. Please add your API key to config.js');
+            if (!CONFIG.WEATHER_API_KEY || CONFIG.WEATHER_API_KEY === '$$WEATHER_API_KEY$$') {
+                console.error('Weather API key not configured or injected by GitHub Action.');
+                throw new Error('Weather API service is unavailable.');
             }
 
             try {
@@ -536,61 +376,36 @@
                 
                 return await response.json();
             } catch (error) {
-                throw new Error('Failed to fetch weather data');
+                throw new Error('Failed to fetch weather data.');
             }
         }
         
-        // Get timezone and time
-      async function getTimezoneTime(timezone) {
-      try {
-       const now = new Date();
-
-      // Case 1: IANA timezone 
-       if (/^[A-Za-z]+\//.test(timezone)) {
-      const options = {
-        timeZone: timezone,
-        hour12: true,
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric'
-      };
-      return {
-        time: now.toLocaleTimeString('en-US', options),
-        timezone: timezone
-      };
-    }
-
-    // Case 2: UTC offset 
-    const match = timezone.match(/^UTC([+-]\d{2}):?(\d{2})?$/);
-    if (match) {
-      const offsetHours = parseInt(match[1], 10);
-      const offsetMinutes = parseInt(match[2] || "0", 10);
-
-      // Calculate time with offset
-      const utc = now.getTime() + now.getTimezoneOffset() * 60000;
-      const local = new Date(utc + (offsetHours * 60 + offsetMinutes) * 60000);
-
-      return {
-        time: local.toLocaleTimeString('en-US', { hour12: true }),
-        timezone: timezone
-      };
-    }
-
-    // If format not recognized
-    return {
-      time: 'Time unavailable',
-      timezone: 'Unknown format'
-    };
-  } catch (error) {
-    console.error('Timezone error:', error);
-    return {
-      time: 'Time unavailable',
-      timezone: 'Error'
-      };
-     }
+        // Get timezone and time (Client-side implementation)
+        async function getTimezoneTime(timezone) {
+            try {
+                const now = new Date();
+                const options = {
+                    timeZone: timezone,
+                    hour12: true,
+                    hour: 'numeric',
+                    minute: 'numeric',
+                    second: 'numeric'
+                };
+                
+                return {
+                    time: now.toLocaleTimeString('en-US', options),
+                    timezone: timezone
+                };
+            } catch (error) {
+                console.error('Timezone calculation error:', error);
+                return {
+                    time: 'Time unavailable',
+                    timezone: timezone || 'N/A'
+                };
+            }
         }
 
-        // Update time display
+        // Update time display (using the IANA timezone)
         function updateTimeDisplay(timezone) {
             if (timeInterval) {
                 clearInterval(timeInterval);
@@ -611,13 +426,18 @@
                     document.getElementById('localTime').textContent = time;
                     document.getElementById('timezone').textContent = timezone;
                 } catch (error) {
+                    // This block handles invalid timezones gracefully
                     document.getElementById('localTime').textContent = 'Time unavailable';
-                    document.getElementById('timezone').textContent = '';
+                    document.getElementById('timezone').textContent = 'Timezone Error';
+                    clearInterval(timeInterval); // Stop trying to update
                 }
             }
             
             updateTime();
-            timeInterval = setInterval(updateTime, 1000);
+            // Check if timezone is valid before setting interval
+            if (timezone && timezone.includes('/')) {
+                timeInterval = setInterval(updateTime, 1000);
+            }
         }
 
         // Display results
@@ -634,19 +454,36 @@
             document.getElementById('countryArea').textContent = formatArea(countryData.area);
             
             // Time
-           if (countryData.timezones && countryData.timezones[0]) {
-            getTimezoneTime(countryData.timezones[0]).then(({ time, timezone }) => {
-             document.getElementById('localTime').textContent = time;
-             document.getElementById('timezone').textContent = timezone;
-              });
+            if (countryData.timezones && countryData.timezones[0]) {
+                const timezoneId = countryData.timezones[0];
+                updateTimeDisplay(timezoneId);
             } else {
-             document.getElementById('localTime').textContent = 'Time unavailable';
-             document.getElementById('timezone').textContent = '';
-        }
+                 document.getElementById('localTime').textContent = 'Time unavailable';
+                 document.getElementById('timezone').textContent = 'N/A';
+            }
             
             // Weather
+            const weatherContent = document.getElementById('weatherContent');
             if (weatherData) {
                 document.getElementById('weatherCity').textContent = countryData.capital;
+                
+                // Reset weatherContent to its default structure before populating
+                weatherContent.innerHTML = `
+                    <div class="flex items-center">
+                        <img id="weatherIcon" class="w-20 h-20" src="" alt="Weather icon" onerror="this.onerror=null; this.src='https://placehold.co/80x80/cccccc/333333?text=N/A'">
+                        <div>
+                            <div id="temperature" class="text-5xl font-extrabold temp-gradient">--°C</div>
+                            <div id="weatherDescription" class="text-xl capitalize text-gray-700 dark:text-gray-300"></div>
+                        </div>
+                    </div>
+                    <div class="flex-grow grid grid-cols-3 gap-4 text-center">
+                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Feels Like</div><div id="feelsLike" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--°C</div></div>
+                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Humidity</div><div id="humidity" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--%</div></div>
+                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Wind Speed</div><div id="windSpeed" class="text-lg font-bold text-gray-800 dark:text-white mt-1">-- m/s</div></div>
+                    </div>
+                `;
+
+                // Populate new structure
                 document.getElementById('weatherIcon').src = 
                     `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
                 document.getElementById('weatherIcon').alt = weatherData.weather[0].description;
@@ -660,14 +497,15 @@
                     weatherData.main.humidity + '%';
                 document.getElementById('windSpeed').textContent = 
                     weatherData.wind.speed + ' m/s';
+
             } else {
                 document.getElementById('weatherCity').textContent = countryData.capital;
-                document.getElementById('weatherContent').innerHTML = 
-                    '<div class="col"><p class="text-muted">Weather data unavailable</p></div>';
+                weatherContent.innerHTML = 
+                    '<div class="col text-center"><p class="text-muted text-lg font-medium">Weather data is currently unavailable.</p></div>';
             }
             
             // Show results
-            document.getElementById('resultSection').classList.remove('d-none');
+            document.getElementById('resultSection').classList.remove('hidden');
             document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
         }
 
@@ -684,11 +522,11 @@
             try {
                 // Disable button and show loading
                 searchBtn.disabled = true;
-                searchBtn.innerHTML = '<i class="fas fa-search"></i> Search';
+                searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
                 showLoading('Searching for country...');
                 
                 // Clear previous results
-                document.getElementById('resultSection').classList.add('d-none');
+                document.getElementById('resultSection').classList.add('hidden');
                 document.getElementById('alertContainer').innerHTML = '';
                 
                 // Fetch country data
@@ -723,7 +561,7 @@
         // Geolocation functionality
         async function getCurrentLocation() {
             if (!navigator.geolocation) {
-                showAlert('Geolocation is not supported by this browser.');
+                showAlert('Geolocation is not supported by this browser.', 'danger');
                 return;
             }
 
@@ -780,7 +618,7 @@
                             displayResult(countryData, weatherData);
                             
                         } catch (error) {
-                            showAlert(`Location error: ${error.message}`);
+                            showAlert(`Location error: ${error.message}`, 'danger');
                         } finally {
                             // IMPORTANT: Always re-enable button and hide loading
                             locationBtn.disabled = false;
@@ -808,7 +646,7 @@
                                 errorMessage += 'An unknown error occurred.';
                                 break;
                         }
-                        showAlert(errorMessage);
+                        showAlert(errorMessage, 'danger');
                     },
                     {
                         enableHighAccuracy: true,
@@ -820,18 +658,14 @@
                 locationBtn.disabled = false;
                 locationBtn.innerHTML = originalBtnHTML;
                 hideLoading();
-                showAlert(`Error: ${error.message}`);
+                showAlert(`Error: ${error.message}`, 'danger');
             }
         }
 
         // Initialize the app
         document.addEventListener('DOMContentLoaded', function() {
-            // Check if config is loaded
-            if (typeof CONFIG === 'undefined') {
-                showAlert('Configuration file not loaded. Please make sure config.js exists and is accessible.', 'danger');
-                return;
-            }
-
+            // --- FIX: Removed the unnecessary config check which was causing the error ---
+            
             initTheme();
             
             // Add search functionality
