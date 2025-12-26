@@ -4,22 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NationPeek</title>
-    <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Load Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* Custom Tailwind Configuration (for better aesthetics) */
+        /* Custom Tailwind Configuration */
         @layer base {
             :root {
-                --color-primary: 66, 125, 234; /* #667eea */
-                --color-secondary: 118, 75, 162; /* #764ba2 */
-                --color-success: 79, 172, 254; /* #4facfe */
-                --bg-light-start: 227, 242, 253; /* #e3f2fd */
-                --bg-light-end: 144, 202, 249; /* #90caf9 */
-                --bg-dark-start: 26, 26, 46; /* #1a1a2e */
-                --bg-dark-end: 15, 52, 96; /* #0f3460 */
+                --color-primary: 66, 125, 234;
+                --color-secondary: 118, 75, 162;
+                --bg-light-start: 227, 242, 253;
+                --bg-light-end: 144, 202, 249;
+                --bg-dark-start: 26, 26, 46;
+                --bg-dark-end: 15, 52, 96;
             }
         }
         
@@ -54,7 +51,6 @@
             color: transparent;
         }
 
-        /* Responsive Body Background */
         body {
             font-family: 'Inter', sans-serif;
             transition: all 0.3s ease;
@@ -70,12 +66,10 @@
 </head>
 
 <body data-theme="light" class="text-gray-900 antialiased">
-    <!-- Theme Toggle -->
     <button class="fixed top-5 right-5 z-50 rounded-full bg-white/70 backdrop-blur-md shadow-lg p-3 text-gray-700 transition duration-300 hover:bg-white focus:outline-none" onclick="toggleTheme()">
         <i id="themeIcon" class="fas fa-moon"></i>
     </button>
 
-    <!-- Loading Overlay -->
     <div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
         <div class="bg-gray-800/80 glass-card p-8 rounded-xl shadow-2xl text-white text-center">
             <div class="animate-spin w-8 h-8 border-4 border-white border-t-transparent rounded-full mb-4 mx-auto"></div>
@@ -84,7 +78,6 @@
     </div>
 
     <div class="container mx-auto px-4 py-8 md:py-12 max-w-4xl">
-        <!-- Hero Section -->
         <div class="text-center mb-8">
             <h1 class="text-5xl font-extrabold hero-title-gradient mb-3 tracking-tight md:text-6xl">
                 <i class="fas fa-globe-americas"></i> NationPeek
@@ -92,7 +85,6 @@
             <p class="text-xl text-gray-700 dark:text-gray-300">Discover countries and their capital city weather</p>
         </div>
 
-        <!-- Search Section -->
         <div class="max-w-xl mx-auto mb-10">
             <div class="glass-card p-6 rounded-2xl">
                 <form id="searchForm" onsubmit="searchCountry(event)">
@@ -125,12 +117,9 @@
             </div>
         </div>
 
-        <!-- Alert Messages -->
         <div id="alertContainer" class="mb-4"></div>
 
-        <!-- Results Section -->
         <div id="resultSection" class="hidden">
-            <!-- Country Header -->
             <div class="glass-card p-6 md:p-8 mb-6 rounded-2xl shadow-xl">
                 <div class="flex items-center space-x-4">
                     <div id="countryFlag" class="text-6xl md:text-8xl leading-none"></div>
@@ -143,30 +132,25 @@
                 </div>
             </div>
 
-            <!-- Stats Grid -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <!-- Population -->
                 <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
                     <div class="text-3xl mb-2 text-indigo-500"><i class="fas fa-users"></i></div>
                     <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Population</h5>
                     <p id="countryPopulation" class="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">--</p>
                 </div>
                 
-                <!-- Region -->
                 <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
                     <div class="text-3xl mb-2 text-green-500"><i class="fas fa-globe"></i></div>
                     <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Region</h5>
                     <p id="countryRegion" class="text-lg font-bold text-green-600 dark:text-green-400 mt-1">--</p>
                 </div>
                 
-                <!-- Area -->
                 <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
                     <div class="text-3xl mb-2 text-yellow-500"><i class="fas fa-expand-arrows-alt"></i></div>
                     <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Area</h5>
                     <p id="countryArea" class="text-lg font-bold text-yellow-600 dark:text-yellow-400 mt-1">--</p>
                 </div>
                 
-                <!-- Local Time -->
                 <div class="stat-card p-4 rounded-xl shadow-md transition hover:shadow-lg">
                     <div class="text-3xl mb-2 text-red-500"><i class="fas fa-clock"></i></div>
                     <h5 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400">Local Time</h5>
@@ -175,73 +159,38 @@
                 </div>
             </div>
 
-            <!-- Weather Section -->
             <div class="glass-card p-6 md:p-8 rounded-2xl shadow-xl">
                 <h3 class="text-2xl font-semibold mb-4 text-gray-800 dark:text-white">
                     <i class="fas fa-cloud-sun text-blue-500 mr-2"></i> 
                     Current Weather in <span id="weatherCity" class="font-bold"></span>
                 </h3>
                 <div id="weatherContent" class="flex flex-wrap items-center gap-6">
-                    <!-- Main Weather -->
-                    <div class="flex items-center">
-                        <img id="weatherIcon" class="w-20 h-20" src="" alt="Weather icon" onerror="this.onerror=null; this.src='https://placehold.co/80x80/cccccc/333333?text=N/A'">
-                        <div>
-                            <div id="temperature" class="text-5xl font-extrabold temp-gradient">--°C</div>
-                            <div id="weatherDescription" class="text-xl capitalize text-gray-700 dark:text-gray-300"></div>
-                        </div>
                     </div>
-
-                    <!-- Details Grid -->
-                    <div class="flex-grow grid grid-cols-3 gap-4 text-center">
-                        <div>
-                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Feels Like</div>
-                            <div id="feelsLike" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--°C</div>
-                        </div>
-                        <div>
-                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Humidity</div>
-                            <div id="humidity" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--%</div>
-                        </div>
-                        <div>
-                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Wind Speed</div>
-                            <div id="windSpeed" class="text-lg font-bold text-gray-800 dark:text-white mt-1">-- m/s</div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // --- FIX: Moved CONFIG object to the start of the script for global availability ---
         const CONFIG = {
-            // NOTE: For security, never expose real API keys in client-side code in a production application.
-            WEATHER_API_KEY: '$$WEATHER_API_KEY$$', 
-            
-            DEFAULT_UNITS: 'metric',
             REQUEST_TIMEOUT: 10000,
-            
             ENDPOINTS: {
-                WEATHER: 'https://api.openweathermap.org/data/2.5/weather',
+                // Switched to Open-Meteo (No API Key Required)
+                WEATHER: 'https://api.open-meteo.com/v1/forecast',
                 COUNTRIES: 'https://restcountries.com/v3.1',
                 GEOCODING: 'https://api.bigdatacloud.net/data/reverse-geocode-client'
             }
         };
 
-        // --- Global State and Utility Functions ---
+        // --- Global State ---
         let timeInterval = null;
 
-        // Theme management
+        // --- Theme & UI Functions ---
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            
-            const icon = document.getElementById('themeIcon');
-            icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            
-            // Toggle text/background colors for dark mode based on Tailwind
+            document.getElementById('themeIcon').className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             document.body.classList.toggle('text-gray-900', newTheme === 'light');
             document.body.classList.toggle('dark:text-white', newTheme === 'dark');
         }
@@ -249,24 +198,18 @@
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', savedTheme);
-            
             const icon = document.getElementById('themeIcon');
-            if (icon) {
-                 icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-            }
-            
-            // Initial body text color setup
+            if (icon) icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             if (savedTheme === 'dark') {
                 document.body.classList.remove('text-gray-900');
                 document.body.classList.add('dark:text-white');
             }
         }
 
-       // Show/hide loading
-       function showLoading(text = 'Loading...') {
+        function showLoading(text = 'Loading...') {
             document.getElementById('loadingText').textContent = text;
             document.getElementById('loadingOverlay').classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function hideLoading() {
@@ -274,14 +217,13 @@
             document.body.style.overflow = '';
         } 
 
-        // Show alerts (uses simple in-place alert, no external bootstrap needed)
         function showAlert(message, type = 'danger') {
             const alertContainer = document.getElementById('alertContainer');
             const color = type === 'danger' ? 'red' : (type === 'warning' ? 'yellow' : 'blue');
             const icon = type === 'danger' ? 'fa-exclamation-triangle' : (type === 'warning' ? 'fa-exclamation-circle' : 'fa-info-circle');
             
             const alertHTML = `
-                <div class="p-4 mb-4 text-sm text-${color}-800 rounded-lg bg-${color}-100 dark:bg-${color}-200 dark:text-${color}-800 flex items-center shadow fade-in" role="alert">
+                <div class="p-4 mb-4 text-sm text-${color}-800 rounded-lg bg-${color}-100 dark:bg-${color}-200 dark:text-${color}-800 flex items-center shadow" role="alert">
                     <i class="fas ${icon} mr-3"></i>
                     <div>${message}</div>
                     <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-transparent text-${color}-500 rounded-lg p-1.5 hover:bg-${color}-200 inline-flex items-center justify-center h-8 w-8" onclick="this.closest('div').remove()">
@@ -290,275 +232,259 @@
                     </button>
                 </div>
             `;
-            
-            // Use innerHTML to replace previous alert
             alertContainer.innerHTML = alertHTML;
-            
-            // Auto dismiss after 5 seconds
-            setTimeout(() => {
-                const alertElement = alertContainer.querySelector('div');
-                if (alertElement) {
-                    alertElement.remove();
-                }
-            }, 5000);
+            setTimeout(() => { const el = alertContainer.querySelector('div'); if (el) el.remove(); }, 5000);
         }
 
-        // Format numbers
-        function formatNumber(number) {
-            return number.toLocaleString('en-US');
-        }
-
+        function formatNumber(number) { return number.toLocaleString('en-US'); }
         function formatPopulation(population) {
-            if (population >= 1000000) {
-                return (population / 1000000).toFixed(1) + 'M';
-            } else if (population >= 1000) {
-                return (population / 1000).toFixed(1) + 'K';
-            }
+            if (population >= 1000000) return (population / 1000000).toFixed(1) + 'M';
+            if (population >= 1000) return (population / 1000).toFixed(1) + 'K';
             return formatNumber(population);
         }
+        function formatArea(area) { return formatNumber(area) + ' km²'; }
 
-        function formatArea(area) {
-            return formatNumber(area) + ' km²';
+        // --- Data Fetching ---
+
+        async function fetchCountryData(countryName) {
+            const response = await fetch(`${CONFIG.ENDPOINTS.COUNTRIES}/name/${encodeURIComponent(countryName)}?fullText=true`);
+            if (!response.ok) throw new Error(response.status === 404 ? 'Country not found.' : 'Failed to fetch country data.');
+            const data = await response.json();
+            const country = data[0];
+            return {
+                name: country.name.common,
+                capital: country.capital ? country.capital[0] : 'N/A',
+                population: country.population,
+                region: country.region,
+                subregion: country.subregion,
+                area: country.area,
+                flag: country.flag,
+                timezones: country.timezones,
+                latlng: country.latlng,
+                capitalInfo: country.capitalInfo // Contains latlng for capital
+            };
         }
 
-        // --- API Fetching Functions ---
-
-        // Fetch country data
-        async function fetchCountryData(countryName) {
+        // Updated to use Open-Meteo (No API Key)
+        async function fetchWeatherData(lat, lon) {
             try {
+                // Fetch current weather, humidity, and wind speed
                 const response = await fetch(
-                    `${CONFIG.ENDPOINTS.COUNTRIES}/name/${encodeURIComponent(countryName)}?fullText=true` // Using fullText=true for more accurate single result
+                    `${CONFIG.ENDPOINTS.WEATHER}?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,weather_code,wind_speed_10m&timezone=auto`
                 );
                 
-                if (!response.ok) {
-                    throw new Error('Country not found');
-                }
-                
+                if (!response.ok) throw new Error('Weather data not found');
                 const data = await response.json();
-                const country = data[0];
-                
+                const current = data.current;
+
                 return {
-                    name: country.name.common,
-                    capital: country.capital ? country.capital[0] : 'N/A',
-                    population: country.population,
-                    region: country.region,
-                    subregion: country.subregion,
-                    area: country.area,
-                    flag: country.flag,
-                    timezones: country.timezones,
-                    latlng: country.latlng,
-                    capitalInfo: country.capitalInfo
+                    temp: current.temperature_2m,
+                    feels_like: current.apparent_temperature,
+                    humidity: current.relative_humidity_2m,
+                    wind_speed: current.wind_speed_10m,
+                    weather_code: current.weather_code,
+                    is_day: current.is_day
                 };
             } catch (error) {
-                // Check for 404 specifically
-                if (error.message.includes('404')) {
-                    throw new Error('Country not found. Please check the spelling.');
-                }
-                throw new Error('Failed to fetch country data. Please check the country name and try again.');
-            }
-        }
-
-        // Fetch weather data
-        async function fetchWeatherData(cityName) {
-            if (!CONFIG.WEATHER_API_KEY || CONFIG.WEATHER_API_KEY === '$$WEATHER_API_KEY$$') {
-                console.error('Weather API key not configured or injected by GitHub Action.');
-                throw new Error('Weather API service is unavailable.');
-            }
-
-            try {
-                const response = await fetch(
-                    `${CONFIG.ENDPOINTS.WEATHER}?q=${encodeURIComponent(cityName)}&appid=${CONFIG.WEATHER_API_KEY}&units=${CONFIG.DEFAULT_UNITS}`
-                );
-                
-                if (!response.ok) {
-                    throw new Error('Weather data not found');
-                }
-                
-                return await response.json();
-            } catch (error) {
+                console.error(error);
                 throw new Error('Failed to fetch weather data.');
             }
         }
-        
-        // Get timezone and time (Client-side implementation)
-        async function getTimezoneTime(timezone) {
-            try {
-                const now = new Date();
-                const options = {
-                    timeZone: timezone,
-                    hour12: true,
-                    hour: 'numeric',
-                    minute: 'numeric',
-                    second: 'numeric'
-                };
-                
-                return {
-                    time: now.toLocaleTimeString('en-US', options),
-                    timezone: timezone
-                };
-            } catch (error) {
-                console.error('Timezone calculation error:', error);
-                return {
-                    time: 'Time unavailable',
-                    timezone: timezone || 'N/A'
-                };
-            }
+
+        // --- Helper: WMO Weather Code to Description & Icon ---
+        function getWeatherDetails(code, isDay) {
+            // WMO Weather interpretation codes (WW)
+            const codes = {
+                0: { desc: 'Clear sky', icon: isDay ? 'fa-sun' : 'fa-moon' },
+                1: { desc: 'Mainly clear', icon: isDay ? 'fa-cloud-sun' : 'fa-cloud-moon' },
+                2: { desc: 'Partly cloudy', icon: 'fa-cloud' },
+                3: { desc: 'Overcast', icon: 'fa-cloud' },
+                45: { desc: 'Fog', icon: 'fa-smog' },
+                48: { desc: 'Depositing rime fog', icon: 'fa-smog' },
+                51: { desc: 'Light drizzle', icon: 'fa-cloud-rain' },
+                53: { desc: 'Moderate drizzle', icon: 'fa-cloud-rain' },
+                55: { desc: 'Dense drizzle', icon: 'fa-cloud-showers-heavy' },
+                61: { desc: 'Slight rain', icon: 'fa-cloud-rain' },
+                63: { desc: 'Moderate rain', icon: 'fa-cloud-showers-heavy' },
+                65: { desc: 'Heavy rain', icon: 'fa-cloud-showers-heavy' },
+                71: { desc: 'Slight snow', icon: 'fa-snowflake' },
+                73: { desc: 'Moderate snow', icon: 'fa-snowflake' },
+                75: { desc: 'Heavy snow', icon: 'fa-snowflake' },
+                77: { desc: 'Snow grains', icon: 'fa-snowflake' },
+                80: { desc: 'Slight rain showers', icon: 'fa-cloud-rain' },
+                81: { desc: 'Moderate rain showers', icon: 'fa-cloud-showers-heavy' },
+                82: { desc: 'Violent rain showers', icon: 'fa-cloud-showers-heavy' },
+                95: { desc: 'Thunderstorm', icon: 'fa-bolt' },
+                96: { desc: 'Thunderstorm with hail', icon: 'fa-bolt' },
+                99: { desc: 'Thunderstorm with heavy hail', icon: 'fa-bolt' }
+            };
+            return codes[code] || { desc: 'Unknown', icon: 'fa-question-circle' };
         }
 
-        // Update time display (using the IANA timezone)
-        function updateTimeDisplay(timezone) {
-            if (timeInterval) {
-                clearInterval(timeInterval);
+        // --- Time Handling Fix ---
+        function calculateLocalTime(offsetStr) {
+            // Handles "UTC+05:30", "UTC-04:00", or "UTC"
+            if (!offsetStr || offsetStr === 'UTC') {
+                return new Date().toLocaleTimeString('en-US', { timeZone: 'UTC', hour: 'numeric', minute: 'numeric', hour12: true });
             }
+
+            // Parse offset
+            const operator = offsetStr.includes('-') ? -1 : 1;
+            const cleanStr = offsetStr.replace('UTC', '').replace('+', '').replace('-', '');
+            const parts = cleanStr.split(':');
+            const hours = parseInt(parts[0], 10);
+            const minutes = parts.length > 1 ? parseInt(parts[1], 10) : 0;
             
-            function updateTime() {
+            const offsetMs = operator * ((hours * 60) + minutes) * 60000;
+            
+            // Calculate target time:
+            // We create a Date object that, when printed in the USER'S local time,
+            // actually displays the time at the target location.
+            // Logic: TargetTime = UTC + TargetOffset
+            // Browser displays: UTC + LocalOffset
+            // We want Browser Display = TargetTime
+            // So we construct a date D where D_UTC + LocalOffset = UTC_Real + TargetOffset
+            // D_UTC = UTC_Real + TargetOffset - LocalOffset
+            // Note: getTimezoneOffset() returns -(LocalOffset) in minutes.
+            
+            const now = new Date();
+            const utc = now.getTime(); // This is UTC_Real
+            const localOffsetMs = now.getTimezoneOffset() * 60000 * -1; // Convert to MS, invert sign for correct logic
+            
+            // Wait, standard trick is easier:
+            // new Date( now.getTime() + targetOffsetMs + (now.getTimezoneOffset() * 60000) )
+            // Because getTimezoneOffset() is positive if local is BEHIND UTC.
+            
+            const targetTime = new Date(now.getTime() + offsetMs + (now.getTimezoneOffset() * 60000));
+            return targetTime.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
+        }
+
+        function updateTimeDisplay(timezoneOffset) {
+            if (timeInterval) clearInterval(timeInterval);
+            
+            function update() {
                 try {
-                    const now = new Date();
-                    const options = {
-                        timeZone: timezone,
-                        hour12: true,
-                        hour: 'numeric',
-                        minute: 'numeric',
-                        second: 'numeric'
-                    };
-                    
-                    const time = now.toLocaleTimeString('en-US', options);
-                    document.getElementById('localTime').textContent = time;
-                    document.getElementById('timezone').textContent = timezone;
-                } catch (error) {
-                    // This block handles invalid timezones gracefully
-                    document.getElementById('localTime').textContent = 'Time unavailable';
-                    document.getElementById('timezone').textContent = 'Timezone Error';
-                    clearInterval(timeInterval); // Stop trying to update
+                    const timeStr = calculateLocalTime(timezoneOffset);
+                    document.getElementById('localTime').textContent = timeStr;
+                    document.getElementById('timezone').textContent = timezoneOffset;
+                } catch (e) {
+                    document.getElementById('localTime').textContent = '--:--';
                 }
             }
-            
-            updateTime();
-            // Check if timezone is valid before setting interval
-            if (timezone && timezone.includes('/')) {
-                timeInterval = setInterval(updateTime, 1000);
-            }
+            update();
+            timeInterval = setInterval(update, 1000); // Update every second
         }
 
-        // Display results
+        // --- Display Logic ---
+
         function displayResult(countryData, weatherData) {
-            // Country basic info
+            // Basic Info
             document.getElementById('countryFlag').textContent = countryData.flag;
             document.getElementById('countryName').textContent = countryData.name;
             document.getElementById('countryCapital').querySelector('span').textContent = countryData.capital;
             
             // Stats
             document.getElementById('countryPopulation').textContent = formatPopulation(countryData.population);
-            document.getElementById('countryRegion').textContent = countryData.region + 
-                (countryData.subregion ? ` (${countryData.subregion})` : '');
+            document.getElementById('countryRegion').textContent = countryData.region + (countryData.subregion ? ` (${countryData.subregion})` : '');
             document.getElementById('countryArea').textContent = formatArea(countryData.area);
             
-            // Time
-            if (countryData.timezones && countryData.timezones[0]) {
-                const timezoneId = countryData.timezones[0];
-                updateTimeDisplay(timezoneId);
+            // Time (Fix: Use Offset string directly)
+            if (countryData.timezones && countryData.timezones.length > 0) {
+                updateTimeDisplay(countryData.timezones[0]);
             } else {
-                 document.getElementById('localTime').textContent = 'Time unavailable';
-                 document.getElementById('timezone').textContent = 'N/A';
+                document.getElementById('localTime').textContent = 'N/A';
             }
             
             // Weather
             const weatherContent = document.getElementById('weatherContent');
+            document.getElementById('weatherCity').textContent = countryData.capital;
+
             if (weatherData) {
-                document.getElementById('weatherCity').textContent = countryData.capital;
+                const weatherInfo = getWeatherDetails(weatherData.weather_code, weatherData.is_day);
                 
-                // Reset weatherContent to its default structure before populating
                 weatherContent.innerHTML = `
                     <div class="flex items-center">
-                        <img id="weatherIcon" class="w-20 h-20" src="" alt="Weather icon" onerror="this.onerror=null; this.src='https://placehold.co/80x80/cccccc/333333?text=N/A'">
+                        <div class="text-6xl mr-4 text-blue-400 drop-shadow-lg">
+                             <i class="fas ${weatherInfo.icon}"></i>
+                        </div>
                         <div>
-                            <div id="temperature" class="text-5xl font-extrabold temp-gradient">--°C</div>
-                            <div id="weatherDescription" class="text-xl capitalize text-gray-700 dark:text-gray-300"></div>
+                            <div id="temperature" class="text-5xl font-extrabold temp-gradient">${Math.round(weatherData.temp)}°C</div>
+                            <div class="text-xl capitalize text-gray-700 dark:text-gray-300">${weatherInfo.desc}</div>
                         </div>
                     </div>
+
                     <div class="flex-grow grid grid-cols-3 gap-4 text-center">
-                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Feels Like</div><div id="feelsLike" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--°C</div></div>
-                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Humidity</div><div id="humidity" class="text-lg font-bold text-gray-800 dark:text-white mt-1">--%</div></div>
-                        <div><div class="text-sm font-medium text-gray-500 dark:text-gray-400">Wind Speed</div><div id="windSpeed" class="text-lg font-bold text-gray-800 dark:text-white mt-1">-- m/s</div></div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Feels Like</div>
+                            <div class="text-lg font-bold text-gray-800 dark:text-white mt-1">${Math.round(weatherData.feels_like)}°C</div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Humidity</div>
+                            <div class="text-lg font-bold text-gray-800 dark:text-white mt-1">${weatherData.humidity}%</div>
+                        </div>
+                        <div>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Wind Speed</div>
+                            <div class="text-lg font-bold text-gray-800 dark:text-white mt-1">${weatherData.wind_speed} km/h</div>
+                        </div>
                     </div>
                 `;
-
-                // Populate new structure
-                document.getElementById('weatherIcon').src = 
-                    `https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`;
-                document.getElementById('weatherIcon').alt = weatherData.weather[0].description;
-                document.getElementById('temperature').textContent = 
-                    Math.round(weatherData.main.temp) + '°C';
-                document.getElementById('weatherDescription').textContent = 
-                    weatherData.weather[0].description;
-                document.getElementById('feelsLike').textContent = 
-                    Math.round(weatherData.main.feels_like) + '°C';
-                document.getElementById('humidity').textContent = 
-                    weatherData.main.humidity + '%';
-                document.getElementById('windSpeed').textContent = 
-                    weatherData.wind.speed + ' m/s';
-
             } else {
-                document.getElementById('weatherCity').textContent = countryData.capital;
-                weatherContent.innerHTML = 
-                    '<div class="col text-center"><p class="text-muted text-lg font-medium">Weather data is currently unavailable.</p></div>';
+                weatherContent.innerHTML = '<div class="w-full text-center text-gray-500">Weather data unavailable for this location.</div>';
             }
             
-            // Show results
             document.getElementById('resultSection').classList.remove('hidden');
             document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Main search function
+        // --- Main Actions ---
+
         async function searchCountry(event) {
             event.preventDefault();
-            
             const countryName = document.getElementById('countryInput').value.trim();
             if (!countryName) return;
             
             const searchBtn = document.getElementById('searchBtn');
-            const originalBtnHTML = searchBtn.innerHTML;
             
             try {
-                // Disable button and show loading
                 searchBtn.disabled = true;
                 searchBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
                 showLoading('Searching for country...');
-                
-                // Clear previous results
                 document.getElementById('resultSection').classList.add('hidden');
                 document.getElementById('alertContainer').innerHTML = '';
                 
-                // Fetch country data
+                // 1. Fetch Country
                 const countryData = await fetchCountryData(countryName);
                 
-                // Fetch weather data
-                showLoading(`Getting weather for ${countryData.capital}...`);
+                // 2. Fetch Weather (using Lat/Lon from capital or country)
                 let weatherData = null;
-                
-                if (countryData.capital && countryData.capital !== 'N/A') {
+                if (countryData.capital !== 'N/A') {
+                    showLoading(`Getting weather for ${countryData.capital}...`);
                     try {
-                        weatherData = await fetchWeatherData(countryData.capital);
-                    } catch (weatherError) {
-                        console.warn('Weather data unavailable:', weatherError);
-                        showAlert('Weather data is temporarily unavailable', 'warning');
+                        // Use Capital Info latlng if available, else Country latlng
+                        const [lat, lon] = (countryData.capitalInfo && countryData.capitalInfo.latlng) 
+                            ? countryData.capitalInfo.latlng 
+                            : countryData.latlng;
+                            
+                        if (lat && lon) {
+                            weatherData = await fetchWeatherData(lat, lon);
+                        }
+                    } catch (wErr) {
+                        console.warn('Weather fetch error:', wErr);
                     }
                 }
                 
-                // Display results
                 displayResult(countryData, weatherData);
                 
             } catch (error) {
                 showAlert(error.message);
             } finally {
-                // Re-enable button and hide loading
+                // FIX: Explicitly reset button state to avoid sticking
                 searchBtn.disabled = false;
-                searchBtn.innerHTML = originalBtnHTML;
+                searchBtn.innerHTML = '<i class="fas fa-search"></i> Search';
                 hideLoading();
             }
         }
 
-        // Geolocation functionality
         async function getCurrentLocation() {
             if (!navigator.geolocation) {
                 showAlert('Geolocation is not supported by this browser.', 'danger');
@@ -566,10 +492,8 @@
             }
 
             const locationBtn = document.querySelector('[onclick="getCurrentLocation()"]');
-            const originalBtnHTML = locationBtn.innerHTML;
             
             try {
-                // Disable button and show loading
                 locationBtn.disabled = true;
                 locationBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Getting Location...';
                 showLoading('Getting your location...');
@@ -580,110 +504,53 @@
                             const { latitude, longitude } = position.coords;
                             
                             showLoading('Finding your country...');
+                            const response = await fetch(`${CONFIG.ENDPOINTS.GEOCODING}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+                            if (!response.ok) throw new Error('Location lookup failed');
+                            const locData = await response.json();
                             
-                            // Use reverse geocoding
-                            const response = await fetch(
-                                `${CONFIG.ENDPOINTS.GEOCODING}?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
-                            );
+                            if (!locData.countryName) throw new Error('Country not found');
                             
-                            if (!response.ok) {
-                                throw new Error('Unable to determine your location');
-                            }
+                            document.getElementById('countryInput').value = locData.countryName;
                             
-                            const locationData = await response.json();
-                            const countryName = locationData.countryName;
+                            // Reuse search logic mostly, but we are already here
+                            const countryData = await fetchCountryData(locData.countryName);
                             
-                            if (!countryName) {
-                                throw new Error('Unable to determine your country');
-                            }
-                            
-                            // Set the country in the input
-                            document.getElementById('countryInput').value = countryName;
-                            
-                            // Trigger search
-                            const countryData = await fetchCountryData(countryName);
-                            
-                            showLoading(`Getting weather for ${countryData.capital}...`);
                             let weatherData = null;
-                            
-                            if (countryData.capital && countryData.capital !== 'N/A') {
+                            if (countryData.capital !== 'N/A') {
+                                showLoading(`Getting weather for ${countryData.capital}...`);
                                 try {
-                                    weatherData = await fetchWeatherData(countryData.capital);
-                                } catch (weatherError) {
-                                    console.warn('Weather data unavailable:', weatherError);
-                                    showAlert('Weather data is temporarily unavailable', 'warning');
-                                }
+                                    const [lat, lon] = (countryData.capitalInfo && countryData.capitalInfo.latlng) ? countryData.capitalInfo.latlng : countryData.latlng;
+                                    if(lat && lon) weatherData = await fetchWeatherData(lat, lon);
+                                } catch(e) {}
                             }
                             
                             displayResult(countryData, weatherData);
-                            
-                        } catch (error) {
-                            showAlert(`Location error: ${error.message}`, 'danger');
+                        } catch (err) {
+                            showAlert(err.message, 'danger');
                         } finally {
-                            // IMPORTANT: Always re-enable button and hide loading
+                            // FIX: Explicit reset
                             locationBtn.disabled = false;
-                            locationBtn.innerHTML = originalBtnHTML;
+                            locationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Use My Location';
                             hideLoading();
                         }
                     },
                     (error) => {
-                        hideLoading();
                         locationBtn.disabled = false;
-                        locationBtn.innerHTML = originalBtnHTML;
-                        
-                        let errorMessage = 'Unable to get your location. ';
-                        switch (error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessage += 'Location access was denied.';
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessage += 'Location information is unavailable.';
-                                break;
-                            case error.TIMEOUT:
-                                errorMessage += 'Location request timed out.';
-                                break;
-                            default:
-                                errorMessage += 'An unknown error occurred.';
-                                break;
-                        }
-                        showAlert(errorMessage, 'danger');
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        timeout: CONFIG.REQUEST_TIMEOUT,
-                        maximumAge: 300000
+                        locationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Use My Location';
+                        hideLoading();
+                        showAlert('Location access denied or unavailable.', 'danger');
                     }
                 );
             } catch (error) {
                 locationBtn.disabled = false;
-                locationBtn.innerHTML = originalBtnHTML;
+                locationBtn.innerHTML = '<i class="fas fa-map-marker-alt"></i> Use My Location';
                 hideLoading();
-                showAlert(`Error: ${error.message}`, 'danger');
+                showAlert(error.message, 'danger');
             }
         }
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', function() {
-            // --- FIX: Removed the unnecessary config check which was causing the error ---
-            
-            initTheme();
-            
-            // Add search functionality
-            document.getElementById('searchForm').addEventListener('submit', searchCountry);
-            
-            // Add some example suggestions
-            const examples = ['Japan', 'France', 'Brazil', 'Canada', 'Australia', 'India'];
-            const randomExample = examples[Math.floor(Math.random() * examples.length)];
-            document.getElementById('countryInput').placeholder = 
-                `Enter country name (e.g., ${randomExample})`;
-        });
-
-        // Cleanup interval on page unload
-        window.addEventListener('beforeunload', function() {
-            if (timeInterval) {
-                clearInterval(timeInterval);
-            }
-        });
+        document.addEventListener('DOMContentLoaded', initTheme);
+        window.addEventListener('beforeunload', () => { if (timeInterval) clearInterval(timeInterval); });
     </script>
 </body>
 </html>
